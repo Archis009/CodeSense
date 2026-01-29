@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../../utils/cn';
+import { motion } from 'framer-motion';
 
 const Card = ({ className, children, hoverEffect = true, ...props }) => {
   return (

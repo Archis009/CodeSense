@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Code, Shield, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Button from '../ui/Button';
 
 const Hero = () => {
@@ -26,11 +27,11 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="group">
+            <Button size="lg" className="group" onClick={() => window.location.href = '/login'}>
               Start Free Analysis
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" onClick={() => window.location.href = '/dashboard'}>
               View Demo
             </Button>
           </div>

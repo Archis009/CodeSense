@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bell, Search, User } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 

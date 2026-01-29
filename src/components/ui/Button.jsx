@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../../utils/cn';
+import { motion } from 'framer-motion';
 
 const variants = {
   primary: 'bg-primary hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/30',

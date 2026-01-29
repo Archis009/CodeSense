@@ -1,11 +1,19 @@
 import React from 'react';
 import { Github, Mail, Lock, ArrowRight, Code2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Card from '../components/ui/Card';
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    navigate('/dashboard');
+  };
+
   return (
     <div className="min-h-screen flex bg-light-bg dark:bg-dark-bg text-slate-900 dark:text-slate-100">
       {/* Left Side - Form */}
@@ -30,7 +38,7 @@ const Login = () => {
           </div>
 
           <div className="space-y-4">
-            <Button variant="outline" className="w-full gap-2 justify-center">
+            <Button variant="outline" className="w-full gap-2 justify-center" onClick={() => navigate('/dashboard')}>
               <Github className="w-5 h-5" />
               Continue with GitHub
             </Button>
@@ -46,12 +54,13 @@ const Login = () => {
               </div>
             </div>
 
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4" onSubmit={handleLogin}>
               <Input 
                 icon={Mail} 
                 type="email" 
                 placeholder="name@example.com" 
                 className="h-12"
+                defaultValue="demo@codesense.ai"
               />
               <div className="space-y-1">
                 <Input 
@@ -59,6 +68,7 @@ const Login = () => {
                   type="password" 
                   placeholder="Password" 
                   className="h-12"
+                  defaultValue="password"
                 />
                 <div className="flex justify-between items-center text-sm">
                   <label className="flex items-center gap-2 cursor-pointer">
