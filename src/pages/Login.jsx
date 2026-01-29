@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 import { Github, Mail, Lock, ArrowRight, Code2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../components/ui/Button';
