@@ -1,17 +1,40 @@
-import React from 'react';
-import { Github, Mail, Lock, ArrowRight, Code2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Github, Mail, Lock, ArrowRight, Code2, Loader2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Card from '../components/ui/Card';
+import { authService } from '../services/api';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: 'demo@codesense.ai',
+    password: 'password',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  const { email, password } = formData;
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.type]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    navigate('/dashboard');
+    setIsLoading(true);
+    setError('');
+
+    try {
+      await authService.login({ email, password });
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -37,6 +60,16 @@ const Login = () => {
             </p>
           </div>
 
+          {error && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-xl border border-red-200 dark:border-red-800"
+            >
+              {error}
+            </motion.div>
+          )}
+
           <div className="space-y-4">
             <Button variant="outline" className="w-full gap-2 justify-center" onClick={() => navigate('/dashboard')}>
               <Github className="w-5 h-5" />
@@ -60,7 +93,9 @@ const Login = () => {
                 type="email" 
                 placeholder="name@example.com" 
                 className="h-12"
-                defaultValue="demo@codesense.ai"
+                value={email}
+                onChange={handleChange}
+                required
               />
               <div className="space-y-1">
                 <Input 
@@ -68,7 +103,9 @@ const Login = () => {
                   type="password" 
                   placeholder="Password" 
                   className="h-12"
-                  defaultValue="password"
+                  value={password}
+                  onChange={handleChange}
+                  required
                 />
                 <div className="flex justify-between items-center text-sm">
                   <label className="flex items-center gap-2 cursor-pointer">
@@ -79,9 +116,15 @@ const Login = () => {
                 </div>
               </div>
 
-              <Button className="w-full h-12 text-lg">
-                Sign In
-                <ArrowRight className="ml-2 w-5 h-5" />
+              <Button className="w-full h-12 text-lg" disabled={isLoading}>
+                {isLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin mx-auto" />
+                ) : (
+                  <>
+                    Sign In
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </>
+                )}
               </Button>
             </form>
           </div>
