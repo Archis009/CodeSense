@@ -68,7 +68,7 @@ const Dashboard = () => {
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <p className="text-slate-500 dark:text-slate-400">Welcome back, Alex! Here's your code quality overview.</p>
         </div>
-        <Button className="flex items-center gap-2">
+        <Button className="flex items-center gap-2" onClick={() => alert("New Analysis Modal would open here")}>
           <Plus className="w-5 h-5" />
           New Analysis
         </Button>
@@ -188,7 +188,7 @@ const Dashboard = () => {
                 placeholder="https://github.com/username/repo" 
                 className="flex-1 rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 focus:ring-2 focus:ring-primary"
               />
-              <Button>Analyze Now</Button>
+              <Button onClick={() => alert("Analysis started! (Demo)")}>Analyze Now</Button>
             </div>
           </div>
         </Card>
