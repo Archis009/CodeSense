@@ -8,8 +8,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         {/* Placeholder for other routes */}
-        <Route path="/dashboard/*" element={<div>Dashboard (Coming Soon)</div>} />
-        <Route path="/login" element={<div>Login (Coming Soon)</div>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard/*" element={<DashboardLayout />} />
       </Routes>
     </Router>
   );
