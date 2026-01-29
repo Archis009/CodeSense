@@ -1,6 +1,5 @@
 import React from 'react';
 import { Bell, Search, User } from 'lucide-react';
-import React from 'react';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 
