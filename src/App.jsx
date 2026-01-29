@@ -4,14 +4,17 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import DashboardLayout from './components/layout/DashboardLayout';
 
+import Dashboard from './pages/Dashboard';
+
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
-        {/* Placeholder for other routes */}
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard/*" element={<DashboardLayout />} />
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Dashboard />} />
+        </Route>
       </Routes>
     </Router>
   );
