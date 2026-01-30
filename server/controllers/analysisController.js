@@ -67,11 +67,13 @@ const analyzeCode = async (req, res) => {
 // @route   GET /api/analysis
 // @access  Private
 const getHistory = async (req, res) => {
-  const history = await CodeAnalysis.find({ userId: req.user.id }).sort({
-    createdAt: -1,
-  });
-
-  res.status(200).json(history);
+  try {
+    const analyses = await CodeAnalysis.find({ userId: req.user.id }) // Changed from Analysis to CodeAnalysis, and user to userId
+      .sort({ createdAt: -1 }); // Newest first
+    res.json(analyses);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // @desc    Get specific analysis

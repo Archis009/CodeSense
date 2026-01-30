@@ -14,6 +14,7 @@ const generateToken = (id) => {
 // @access  Public
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
+  console.log('[Auth] Register request:', { name, email });
 
   if (!name || !email || !password) {
     res.status(400);
@@ -53,6 +54,7 @@ const registerUser = async (req, res) => {
 // @access  Public
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log('[Auth] Login request:', { email });
 
   // Check for user email
   const user = await User.findOne({ email });

@@ -9,12 +9,15 @@ import History from './pages/History';
 import Settings from './pages/Settings';
 import Dashboard from './pages/Dashboard';
 
+import Register from './pages/Register';
+
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Register />} />
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="new" element={<NewAnalysis />} />
