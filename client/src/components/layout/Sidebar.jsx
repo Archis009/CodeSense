@@ -21,7 +21,7 @@ const Sidebar = () => {
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
     { icon: PlusCircle, label: 'New Analysis', path: '/dashboard/new' },
     { icon: History, label: 'History', path: '/dashboard/history' },
-    { icon: Settings, label: 'Settings', path: '/settings' },
+    { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
   ];
 
   return (

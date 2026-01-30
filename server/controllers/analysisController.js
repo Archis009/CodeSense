@@ -3,23 +3,36 @@ import CodeAnalysis from '../models/CodeAnalysis.js';
 
 // Mock Analysis Function (Deterministic)
 const calculateMockAnalysis = (code, language) => {
-  const isGood = code.length > 50 && !code.includes('var ');
+  const lang = language.toLowerCase();
+  let isGood = code.length > 50;
+  let issues = [];
+  let suggestions = [];
+
+  // Language specific checks
+  if (lang === 'python') {
+    if (code.includes('print ')) issues.push('Use print() function in Python 3');
+    if (code.includes('camelCase')) suggestions.push('Use snake_case for variable names in Python');
+  } else if (lang === 'javascript' || lang === 'typescript') {
+    if (code.includes('var ')) issues.push('Use of "var" is discouraged');
+    if (code.includes('==')) suggestions.push('Use "===" for strict equality');
+  } else if (lang === 'java') {
+    if (code.includes('System.out.println')) isGood = true; // Just a dummy check
+  }
+
+  // General checks
+  if (code.length < 20) issues.push('Code snippet is too short for meaningful analysis');
+  if (!issues.length && isGood) isGood = true;
+
   const score = isGood ? 85 : 45;
   
   return {
     qualityScore: score,
     readability: isGood ? 'Good' : 'Needs Improvement',
     complexity: isGood ? 'Low' : 'Moderate',
-    issues: isGood 
-      ? ['Minor formatting inconsistencies'] 
-      : ['Use of "var" is discouraged', 'Function lacks comments', 'Potential global variable leakage'],
+    issues: issues.length ? issues : ['No critical issues found'],
     securityConcerns: ['No input validation detected in snippet'],
-    suggestions: isGood 
-      ? ['Consider adding JSDoc comments'] 
-      : ['Replace "var" with "let" or "const"', 'Refactor into smaller functions'],
-    improvedCodeSnippet: isGood 
-      ? code 
-      : `// Improved Code\nconst fixedVariable = "secure";\n\n${code.replace(/var /g, 'const ')}`,
+    suggestions: suggestions.length ? suggestions : ['Consider adding comments', 'Review variable naming conventions'],
+    improvedCodeSnippet: code, // In a real app, this would be the refactored code
   };
 };
 
