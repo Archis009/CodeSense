@@ -48,6 +48,7 @@ const logout = () => {
 
 // Analysis Services
 const analyzeCode = async (data) => {
+  console.log(data);
   const response = await api.post('/analysis', data);
   return response.data;
 };

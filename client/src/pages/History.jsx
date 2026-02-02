@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { History as HistoryIcon, Search } from 'lucide-react';
+import { motion as Motion } from 'framer-motion';
+import { History as HistoryIcon } from 'lucide-react';
 
 const History = () => {
   const [history, setHistory] = React.useState([]);
@@ -38,7 +38,7 @@ const History = () => {
       {isLoading ? (
         <div className="text-center py-12 text-slate-500">Loading history...</div>
       ) : history.length === 0 ? (
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="p-12 text-center rounded-2xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm"
@@ -52,11 +52,11 @@ const History = () => {
           <p className="text-slate-600 dark:text-slate-400">
             You haven't run any analyses yet. Start a new analysis to see it here.
           </p>
-        </motion.div>
+        </Motion.div>
       ) : (
         <div className="grid gap-4">
           {history.map((item) => (
-            <motion.div
+            <Motion.div
               key={item._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -84,7 +84,7 @@ const History = () => {
                   {item.score}
                 </div>
               </div>
-            </motion.div>
+            </Motion.div>
           ))}
         </div>
       )}

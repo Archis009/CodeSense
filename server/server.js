@@ -14,32 +14,43 @@ dotenv.config();
 connectDB();
 
 const app = express();
+const PORT = process.env.PORT || 8000;
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
 
-// Middleware
-app.use(express.json()); // Body parser
+// Security & Utility Middleware
+app.use(helmet()); // Secure HTTP headers
+app.use(morgan('dev')); // HTTP request logger
+
+// CORS Configuration
+app.use(cors({
+  origin: CLIENT_URL,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
+// Body Parsing Middleware (Must be before routes)
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
-app.use(helmet());
-app.use(morgan('dev')); // Logger
 
-// Routes
+// Health Check Route
 app.get('/', (req, res) => {
-  res.send('CodeSense API is running...');
+  res.status(200).json({ status: 'ok', message: 'CodeSense API is running' });
 });
 
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/analysis', analysisRoutes);
 
-// Error Handler
+// Global Error Handler
 app.use((err, req, res, next) => {
-  const statusCode = res.statusCode ? res.statusCode : 500;
-  res.status(statusCode);
-  res.json({
+  // If status is 200 (default), change to 500. Otherwise keep existing error status (e.g. 400, 401, 404)
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  
+  res.status(statusCode).json({
     message: err.message,
+    // only show stack trace in development
     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   });
 });
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`));
