@@ -9,6 +9,8 @@ import History from './pages/History';
 import Settings from './pages/Settings';
 import Dashboard from './pages/Dashboard';
 
+import AnalysisResult from './pages/AnalysisResult';
+
 import Register from './pages/Register';
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="new" element={<NewAnalysis />} />
           <Route path="history" element={<History />} />
+          <Route path="analysis/:id" element={<AnalysisResult />} />
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>

@@ -23,12 +23,12 @@ const NewAnalysis = () => {
     setError(null);
 
     try {
-      await analysisService.analyzeCode({
+      const result = await analysisService.analyzeCode({
         code,
         language,
         filename: `snippet.${language === 'python' ? 'py' : language === 'java' ? 'java' : language === 'cpp' ? 'cpp' : language === 'typescript' ? 'ts' : 'js'}`
       });
-      navigate('/dashboard/history');
+      navigate(`/dashboard/analysis/${result._id}`);
     } catch (err) {
       setError(err.message || 'Analysis failed. Please try again.');
     } finally {
@@ -50,7 +50,7 @@ const NewAnalysis = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="p-6 rounded-2xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm"
+        className="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm"
       >
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

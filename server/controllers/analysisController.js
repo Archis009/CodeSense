@@ -1,40 +1,7 @@
 import CodeAnalysis from '../models/CodeAnalysis.js';
-// import openai from '../utils/aiService.js'; // Future integration
+import openai from '../utils/aiService.js';
 
-// Mock Analysis Function (Deterministic)
-const calculateMockAnalysis = (code, language) => {
-  const lang = language.toLowerCase();
-  let isGood = code.length > 50;
-  let issues = [];
-  let suggestions = [];
-
-  // Language specific checks
-  if (lang === 'python') {
-    if (code.includes('print ')) issues.push('Use print() function in Python 3');
-    if (code.includes('camelCase')) suggestions.push('Use snake_case for variable names in Python');
-  } else if (lang === 'javascript' || lang === 'typescript') {
-    if (code.includes('var ')) issues.push('Use of "var" is discouraged');
-    if (code.includes('==')) suggestions.push('Use "===" for strict equality');
-  } else if (lang === 'java') {
-    if (code.includes('System.out.println')) isGood = true; // Just a dummy check
-  }
-
-  // General checks
-  if (code.length < 20) issues.push('Code snippet is too short for meaningful analysis');
-  if (!issues.length && isGood) isGood = true;
-
-  const score = isGood ? 85 : 45;
-  
-  return {
-    qualityScore: score,
-    readability: isGood ? 'Good' : 'Needs Improvement',
-    complexity: isGood ? 'Low' : 'Moderate',
-    issues: issues.length ? issues : ['No critical issues found'],
-    securityConcerns: ['No input validation detected in snippet'],
-    suggestions: suggestions.length ? suggestions : ['Consider adding comments', 'Review variable naming conventions'],
-    improvedCodeSnippet: code, // In a real app, this would be the refactored code
-  };
-};
+// Mock removed
 
 // @desc    Analyze code
 // @route   POST /api/analysis
@@ -47,20 +14,32 @@ const analyzeCode = async (req, res) => {
     throw new Error('Please provide code to analyze');
   }
 
-  // TODO: Call Real AI Service here
-  // const aiResult = await openai.analyze(code, language);
-  const aiResult = calculateMockAnalysis(code, language);
+  try {
+    const aiResult = await openai.analyze(code, language);
 
-  const analysis = await CodeAnalysis.create({
-    userId: req.user.id,
-    language: language || 'javascript',
-    code,
-    filename: filename || 'snippet.js',
-    score: aiResult.qualityScore,
-    feedback: aiResult,
-  });
+    const analysis = await CodeAnalysis.create({
+      userId: req.user.id,
+      language: language || 'javascript',
+      code,
+      filename: filename || 'snippet.js',
+      score: aiResult.score,
+      feedback: aiResult,
+    });
 
-  res.status(201).json(analysis);
+    res.status(201).json(analysis);
+  } catch (error) {
+    console.error('Controller Error:', error);
+    
+    // Handle Gemini 429 (Too Many Requests) or 503 (Overloaded)
+    if (error.message.includes('429') || error.message.includes('Quota exceeded')) {
+      return res.status(429).json({ message: 'AI Rate limit exceeded. Please try again later.' });
+    }
+    if (error.message.includes('503')) {
+      return res.status(503).json({ message: 'AI Service overloaded. Please try again later.' });
+    }
+
+    res.status(500).json({ message: error.message || 'Failed to analyze code' });
+  }
 };
 
 // @desc    Get user analysis history

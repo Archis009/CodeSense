@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion as Motion } from 'framer-motion';
 import { History as HistoryIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const History = () => {
   const [history, setHistory] = React.useState([]);
@@ -41,7 +42,7 @@ const History = () => {
         <Motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-12 text-center rounded-2xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm"
+          className="p-12 text-center rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm"
         >
           <div className="inline-flex items-center justify-center p-4 rounded-full bg-slate-100 dark:bg-slate-800 mb-4">
             <HistoryIcon className="w-8 h-8 text-slate-400" />
@@ -56,11 +57,11 @@ const History = () => {
       ) : (
         <div className="grid gap-4">
           {history.map((item) => (
+            <Link to={`/dashboard/analysis/${item._id}`} key={item._id}>
             <Motion.div
-              key={item._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-6 rounded-xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow"
+              className="p-6 rounded-xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             >
               <div className="flex justify-between items-start">
                 <div>
@@ -85,6 +86,7 @@ const History = () => {
                 </div>
               </div>
             </Motion.div>
+            </Link>
           ))}
         </div>
       )}

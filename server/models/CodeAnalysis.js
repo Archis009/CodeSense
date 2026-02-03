@@ -24,12 +24,19 @@ const analysisSchema = mongoose.Schema(
       required: true,
     },
     feedback: {
-      readability: String,
-      complexity: String,
-      issues: [String],
-      securityConcerns: [String],
-      suggestions: [String],
-      improvedCodeSnippet: String,
+      verdict: String,
+      verdictExplanation: String,
+      strengths: [String],
+      issues: [
+        {
+          title: String,
+          description: String,
+          fix: String,
+          severity: String,
+        },
+      ],
+      actionableImprovements: [String],
+      refactoredCode: String,
     },
   },
   {
