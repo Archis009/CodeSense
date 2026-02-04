@@ -12,6 +12,8 @@ const Navbar = () => {
       const storedUser = JSON.parse(localStorage.getItem('user'));
       if (storedUser) {
         setUser(storedUser);
+      } else {
+        setUser({ name: 'User', profileImage: null });
       }
     };
 

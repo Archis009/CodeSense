@@ -15,6 +15,11 @@ const analysisSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    codeHash: {
+      type: String,
+      required: true,
+      index: true,
+    },
     filename: {
       type: String,
       default: 'snippet.js',

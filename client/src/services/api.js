@@ -42,6 +42,8 @@ const login = async (userData) => {
 };
 
 const logout = () => {
+  localStorage.removeItem('user');
+  window.dispatchEvent(new Event('user-updated'));
   window.location.href = '/login';
 };
 

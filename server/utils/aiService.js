@@ -1,10 +1,10 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import dotenv from 'dotenv';
+import { GoogleGenAI } from "@google/genai";
+
 
 dotenv.config();
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 
 const analyzeCodeWithAI = async (code, language) => {
   try {
@@ -40,9 +40,25 @@ const analyzeCodeWithAI = async (code, language) => {
       ${code}
     `;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+
+    const makeRequest = async (retries = 3, delay = 2000) => {
+      try {
+        const response = await ai.models.generateContent({ model: 'gemini-2.5-flash' ,
+                  contents: prompt
+                });
+        console.log(response);
+        return response.text;
+      } catch (error) {
+        if (retries > 0 && (error.message.includes('429') || error.message.includes('Quota exceeded'))) {
+          console.warn(`Quota exceeded. Retrying in ${delay / 1000}s... (${retries} retries left)`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          return makeRequest(retries - 1, delay * 2);
+        }
+        throw error;
+      }
+    };
+
+    const text = await makeRequest();
     
     // Clean up markdown code blocks if Gemini adds them
     let jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
