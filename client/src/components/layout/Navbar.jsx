@@ -25,7 +25,7 @@ const Navbar = () => {
         
         <div className="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-700">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-medium">Alex Developer</p>
+            <p className="text-sm font-medium">{JSON.parse(localStorage.getItem('user'))?.name || 'User'}</p>
             <p className="text-xs text-slate-500">Pro Plan</p>
           </div>
           <motion.div 

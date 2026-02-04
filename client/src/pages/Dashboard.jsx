@@ -85,26 +85,6 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  const handleNewAnalysis = async () => {
-    const code = prompt("Paste your code here for a quick demo analysis:");
-    if (!code) return;
-
-    try {
-      setLoading(true);
-      await analysisService.analyzeCode({
-        code,
-        language: 'javascript', // Default for demo
-        filename: 'demo-snippet.js'
-      });
-      // Refresh
-      const data = await analysisService.getHistory();
-      setHistory(data);
-    } catch (error) {
-      alert("Analysis failed: " + error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Calculate stats
   const avgScore = history.length > 0 
@@ -123,7 +103,7 @@ const Dashboard = () => {
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <p className="text-slate-500 dark:text-slate-400">Welcome back, {user.name}! Here's your code quality overview.</p>
         </div>
-        <Button className="flex items-center gap-2" onClick={handleNewAnalysis}>
+        <Button className="flex items-center gap-2" onClick={() => navigate('/dashboard/new')}>
           <Plus className="w-5 h-5" />
           New Analysis
         </Button>
@@ -255,7 +235,7 @@ const Dashboard = () => {
                 placeholder="https://github.com/username/repo" 
                 className="flex-1 rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 focus:ring-2 focus:ring-primary"
               />
-              <Button onClick={handleNewAnalysis}>Analyze Code</Button>
+              <Button onClick={() => navigate('/dashboard/new')}>Analyze Code</Button>
             </div>
           </div>
         </Card>
