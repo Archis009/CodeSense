@@ -55,6 +55,11 @@ const updateProfile = async (userData) => {
   return response.data;
 };
 
+const updatePassword = async (passwordData) => {
+  const response = await api.put('/auth/password', passwordData);
+  return response.data;
+};
+
 // Analysis Services
 const analyzeCode = async (data) => {
   console.log(data);
@@ -72,17 +77,24 @@ const getAnalysisById = async (id) => {
   return response.data;
 };
 
+const deleteAnalysis = async (id) => {
+  const response = await api.delete(`/analysis/${id}`);
+  return response.data;
+};
+
 const authService = {
   register,
   login,
   logout,
   updateProfile,
+  updatePassword,
 };
 
 const analysisService = {
   analyzeCode,
   getHistory,
   getAnalysisById,
+  deleteAnalysis,
 };
 
 export { authService, analysisService };

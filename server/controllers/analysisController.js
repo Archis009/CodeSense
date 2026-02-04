@@ -105,8 +105,31 @@ const getAnalysisById = async (req, res) => {
   res.status(200).json(analysis);
 };
 
+// @desc    Delete analysis
+// @route   DELETE /api/analysis/:id
+// @access  Private
+const deleteAnalysis = async (req, res) => {
+  const analysis = await CodeAnalysis.findById(req.params.id);
+
+  if (!analysis) {
+    res.status(404);
+    throw new Error('Analysis not found');
+  }
+
+  // Ensure user owns this analysis
+  if (analysis.userId.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error('User not authorized');
+  }
+
+  await analysis.deleteOne();
+
+  res.status(200).json({ message: 'Analysis removed' });
+};
+
 export {
   analyzeCode,
   getHistory,
   getAnalysisById,
+  deleteAnalysis,
 };

@@ -44,7 +44,7 @@ const StatCard = ({ icon: Icon, title, value, trend, color, delay }) => (
     <Card className="h-full">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mb-1">{title}</p>
+          <p className="text-sm text-text-muted dark:text-slate-400 font-medium mb-1">{title}</p>
           <h3 className="text-3xl font-bold">{value}</h3>
         </div>
         <div className={`p-3 rounded-xl ${color}`}>
@@ -101,7 +101,7 @@ const Dashboard = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-slate-500 dark:text-slate-400">Welcome back, {user.name}! Here's your code quality overview.</p>
+          <p className="text-text-muted dark:text-slate-400">Welcome back, {user.name}! Here's your code quality overview.</p>
         </div>
         <Button className="flex items-center gap-2" onClick={() => navigate('/dashboard/new')}>
           <Plus className="w-5 h-5" />
@@ -158,7 +158,7 @@ const Dashboard = () => {
               <Card className="h-full min-h-[400px]">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="font-semibold text-lg">Quality Trend</h3>
-                  <select className="bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm px-3 py-1">
+                  <select className="bg-background dark:bg-slate-800 border-none rounded-lg text-sm px-3 py-1">
                     <option>Last 6 Months</option>
                   </select>
                 </div>
@@ -190,8 +190,8 @@ const Dashboard = () => {
                 <h3 className="font-semibold text-lg mb-4">Recent Analyses</h3>
                 <div className="space-y-4">
                   {history.slice(0, 5).map((item) => (
-                    <div key={item._id} className="flex items-center gap-4 p-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-colors cursor-pointer group">
-                      <div className="w-10 h-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-500">
+                    <div key={item._id} className="flex items-center gap-4 p-3 hover:bg-background dark:hover:bg-slate-800/50 rounded-xl transition-colors cursor-pointer group">
+                      <div className="w-10 h-10 rounded-lg bg-indigo-900/30 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-500">
                         <FileCode className="w-5 h-5" />
                       </div>
                       <div className="flex-1 overflow-hidden">
@@ -204,7 +204,7 @@ const Dashboard = () => {
                     </div>
                   ))}
                   {history.length === 0 && (
-                    <p className="text-sm text-slate-500 text-center py-4">No analysis history yet.</p>
+                    <p className="text-sm text-text-muted text-center py-4">No analysis history yet.</p>
                   )}
                 </div>
                 <Button variant="ghost" className="w-full mt-4 text-sm" onClick={() => navigate('/dashboard/history')}>View All History</Button>
@@ -220,20 +220,20 @@ const Dashboard = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <Card className="border-dashed border-2 bg-slate-50/50 dark:bg-slate-800/20">
+        <Card className="border-dashed border-2 bg-background/50 dark:bg-slate-800/20">
           <div className="text-center py-10">
-            <div className="w-16 h-16 mx-auto bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mb-4 text-indigo-500">
+            <div className="w-16 h-16 mx-auto bg-indigo-900/30 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mb-4 text-indigo-500">
               <GitBranch className="w-8 h-8" />
             </div>
             <h3 className="text-xl font-bold mb-2">Analyze a New Project</h3>
-            <p className="text-slate-500 max-w-lg mx-auto mb-8">
+            <p className="text-text-muted max-w-lg mx-auto mb-8">
               Paste a GitHub repository URL or drag and drop your files here to start a comprehensive code quality analysis.
             </p>
             <div className="max-w-xl mx-auto flex gap-2">
               <input 
                 type="text" 
                 placeholder="https://github.com/username/repo" 
-                className="flex-1 rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 focus:ring-2 focus:ring-primary"
+                className="flex-1 rounded-xl border-surface dark:border-slate-700 bg-surface dark:bg-slate-900 px-4 focus:ring-2 focus:ring-primary"
               />
               <Button onClick={() => navigate('/dashboard/new')}>Analyze Code</Button>
             </div>

@@ -106,12 +106,12 @@ const AnalysisResult = () => {
     <div className="space-y-8 max-w-6xl mx-auto pb-12">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link to="/dashboard/history" className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
-          <ArrowLeft className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+        <Link to="/dashboard/history" className="p-2 hover:bg-background dark:hover:bg-slate-800 rounded-lg transition-colors">
+          <ArrowLeft className="w-5 h-5 text-text-muted dark:text-slate-400" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Analysis Result</h1>
-          <p className="text-slate-500 text-sm">Analyzed on {new Date(analysis.createdAt).toLocaleDateString()}</p>
+          <h1 className="text-2xl font-bold text-text-main dark:text-white">Analysis Result</h1>
+          <p className="text-text-muted text-sm">Analyzed on {new Date(analysis.createdAt).toLocaleDateString()}</p>
         </div>
       </div>
 
@@ -121,17 +121,17 @@ const AnalysisResult = () => {
         animate={{ opacity: 1, y: 0 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-6"
       >
-        <div className="md:col-span-1 p-8 bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col items-center justify-center text-center">
+        <div className="md:col-span-1 p-8 bg-surface dark:bg-dark-card rounded-2xl border border-surface dark:border-slate-800 shadow-sm flex flex-col items-center justify-center text-center">
           <div className={`relative w-32 h-32 rounded-full border-8 flex items-center justify-center mb-4 ${getScoreColor(score)}`}>
             <span className="text-4xl font-bold">{score}</span>
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{verdict}</h2>
-          <p className="text-slate-600 dark:text-slate-400 text-sm">{verdictExplanation}</p>
+          <h2 className="text-2xl font-bold text-text-main dark:text-white mb-2">{verdict}</h2>
+          <p className="text-text-muted dark:text-slate-400 text-sm">{verdictExplanation}</p>
         </div>
 
         {/* 2. Strengths */}
-        <div className="md:col-span-2 p-8 bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+        <div className="md:col-span-2 p-8 bg-surface dark:bg-dark-card rounded-2xl border border-surface dark:border-slate-800 shadow-sm">
+          <h3 className="text-lg font-bold text-text-main dark:text-white mb-4 flex items-center gap-2">
             <Zap className="w-5 h-5 text-yellow-500" />
             Key Strengths
           </h3>
@@ -142,12 +142,12 @@ const AnalysisResult = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-start gap-3 p-3 bg-green-50 dark:bg-green-900/10 rounded-xl"
+                className="flex items-start gap-3 p-3 bg-green-900/10 dark:bg-green-900/10 rounded-xl"
               >
                 <div className="mt-0.5 min-w-[20px]">
                   <CheckCircle className="w-5 h-5 text-green-500" />
                 </div>
-                <span className="text-slate-700 dark:text-slate-300">{strength}</span>
+                <span className="text-text-main dark:text-slate-300">{strength}</span>
               </motion.div>
             ))}
           </div>
@@ -168,11 +168,11 @@ const AnalysisResult = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + index * 0.1 }}
-                className="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm"
+                className="bg-surface dark:bg-dark-card border border-surface dark:border-slate-800 rounded-xl overflow-hidden shadow-sm"
               >
-                <div className="p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex justify-between items-start gap-4">
+                <div className="p-4 border-b border-surface dark:border-slate-800 bg-background/50 dark:bg-slate-900/50 flex justify-between items-start gap-4">
                   <div>
-                    <h4 className="font-semibold text-slate-900 dark:text-white">{issue.title}</h4>
+                    <h4 className="font-semibold text-text-main dark:text-white">{issue.title}</h4>
                     <span className={`inline-block mt-1 px-2 py-0.5 text-xs font-medium rounded-full ${
                       issue.severity === 'High' ? 'bg-red-100 text-red-700' :
                       issue.severity === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
@@ -183,11 +183,11 @@ const AnalysisResult = () => {
                   </div>
                 </div>
                 <div className="p-4 space-y-3">
-                  <div className="text-sm text-slate-600 dark:text-slate-300">
-                    <strong className="text-slate-900 dark:text-white block mb-1">Why it matters:</strong>
+                  <div className="text-sm text-text-muted dark:text-slate-300">
+                    <strong className="text-text-main dark:text-white block mb-1">Why it matters:</strong>
                     {issue.description}
                   </div>
-                  <div className="text-sm bg-blue-50 dark:bg-blue-900/10 p-3 rounded-lg text-blue-800 dark:text-blue-200">
+                  <div className="text-sm bg-blue-900/10 dark:bg-blue-900/10 p-3 rounded-lg text-blue-400 dark:text-blue-200">
                     <strong className="block mb-1 flex items-center gap-1">
                       <Zap className="w-3 h-3" /> How to fix:
                     </strong>
@@ -201,21 +201,21 @@ const AnalysisResult = () => {
 
         {/* 4. Actionable Improvements Checklist */}
         <div className="space-y-6">
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <h3 className="text-xl font-bold text-text-main dark:text-white flex items-center gap-2">
             <CheckSquare className="w-6 h-6 text-primary" />
             Action Plan
           </h3>
-          <div className="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
-            <p className="text-sm text-slate-500 mb-4">Follow these steps to improve your code quality.</p>
+          <div className="bg-surface dark:bg-dark-card border border-surface dark:border-slate-800 rounded-xl p-6 shadow-sm">
+            <p className="text-sm text-text-muted mb-4">Follow these steps to improve your code quality.</p>
             <div className="space-y-3">
               {actionableImprovements?.map((item, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <div className="mt-1 min-w-[20px]">
-                    <div className="w-5 h-5 rounded border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center">
+                    <div className="w-5 h-5 rounded border-2 border-surface dark:border-slate-600 flex items-center justify-center">
                       <div className="w-2.5 h-2.5 rounded-sm bg-transparent hover:bg-slate-400 transition-colors" />
                     </div>
                   </div>
-                  <span className="text-slate-700 dark:text-slate-300 leading-relaxed">{item}</span>
+                  <span className="text-text-main dark:text-slate-300 leading-relaxed">{item}</span>
                 </div>
               ))}
             </div>
@@ -224,19 +224,19 @@ const AnalysisResult = () => {
       </div>
 
       {/* 5. Improved Code */}
-      <div className="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
-        <div className="border-b border-slate-200 dark:border-slate-800 p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+      <div className="bg-surface dark:bg-dark-card border border-surface dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+        <div className="border-b border-surface dark:border-slate-800 p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <h3 className="text-xl font-bold text-text-main dark:text-white flex items-center gap-2">
             <Code2 className="w-6 h-6 text-primary" />
             Refactored Code
           </h3>
-          <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-900 p-1 rounded-lg">
+          <div className="flex items-center gap-2 bg-background dark:bg-slate-900 p-1 rounded-lg">
             <button
               onClick={() => setActiveTab('original')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
                 activeTab === 'original' 
-                  ? 'bg-white dark:bg-dark-card shadow text-slate-900 dark:text-white' 
-                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                  ? 'bg-surface dark:bg-dark-card shadow text-text-main dark:text-white' 
+                  : 'text-text-muted hover:text-text-main dark:hover:text-slate-300'
               }`}
             >
               Original
@@ -245,8 +245,8 @@ const AnalysisResult = () => {
               onClick={() => setActiveTab('improved')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
                 activeTab === 'improved' 
-                  ? 'bg-white dark:bg-dark-card shadow text-primary' 
-                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                  ? 'bg-surface dark:bg-dark-card shadow text-primary' 
+                  : 'text-text-muted hover:text-text-main dark:hover:text-slate-300'
               }`}
             >
               Improved Solution

@@ -33,6 +33,10 @@ const Settings = () => {
             onClick={() => {
               if (item.label === 'Profile Settings') {
                 navigate('/dashboard/settings/profile');
+              } else if (item.label === 'Notifications') {
+                navigate('/dashboard/settings/notifications');
+              } else if (item.label === 'Security') {
+                navigate('/dashboard/settings/security');
               }
             }}
           >

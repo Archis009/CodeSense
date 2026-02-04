@@ -11,7 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: 'demo@codesense.ai',
-    password: 'password',
+    password: 'password', 
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');

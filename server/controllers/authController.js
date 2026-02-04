@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import axios from 'axios';
 import User from '../models/User.js';
 
 // Generate JWT
@@ -109,9 +110,109 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+// @desc    Update user password
+// @route   PUT /api/auth/password
+// @access  Private
+const updatePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  const user = await User.findById(req.user._id);
+
+  if (user && (await user.matchPassword(currentPassword))) {
+    user.password = newPassword;
+    await user.save();
+    res.json({ message: 'Password updated successfully' });
+  } else {
+    res.status(400);
+    throw new Error('Invalid current password');
+  }
+};
+
+// @desc    Redirect to GitHub OAuth
+// @route   GET /api/auth/github
+// @access  Public
+const githubLogin = (req, res) => {
+  const redirectUri = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_CALLBACK_URL}&scope=user:email`;
+  res.redirect(redirectUri);
+};
+
+// @desc    Handle GitHub OAuth Callback
+// @route   GET /api/auth/github/callback
+// @access  Public
+const githubCallback = async (req, res) => {
+  const { code } = req.query;
+
+  try {
+    // Exchange code for access token
+    const { data } = await axios.post(
+      'https://github.com/login/oauth/access_token',
+      {
+        client_id: process.env.GITHUB_CLIENT_ID,
+        client_secret: process.env.GITHUB_CLIENT_SECRET,
+        code,
+        redirect_uri: process.env.GITHUB_CALLBACK_URL,
+      },
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+      }
+    );
+
+    const accessToken = data.access_token;
+
+    // Get user profile
+    const { data: profile } = await axios.get('https://api.github.com/user', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    // Get user emails (in case email is private)
+    const { data: emails } = await axios.get('https://api.github.com/user/emails', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const primaryEmail = emails.find((email) => email.primary).email;
+
+    // Check if user exists
+    let user = await User.findOne({ email: primaryEmail });
+
+    if (!user) {
+      // Create new user
+      user = await User.create({
+        name: profile.name || profile.login,
+        email: primaryEmail,
+        password: Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8), // Generate random password
+        profileImage: profile.avatar_url,
+        description: profile.bio || '',
+      });
+    }
+
+    const token = generateToken(user._id);
+
+    // Redirect to frontend with token
+    res.redirect(`http://localhost:5173/login?token=${token}&user=${encodeURIComponent(JSON.stringify({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      profileImage: user.profileImage,
+      token
+    }))}`);
+
+  } catch (error) {
+    console.error('GitHub Auth Error:', error);
+    res.redirect('http://localhost:5173/login?error=GitHub login failed');
+  }
+};
+
 export {
   registerUser,
   loginUser,
   getMe,
   updateUserProfile,
+  updatePassword,
+  githubLogin,
+  githubCallback,
 };

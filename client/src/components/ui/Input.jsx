@@ -17,7 +17,7 @@ const Input = React.forwardRef(({
       <input
         ref={ref}
         className={cn(
-          'block w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm',
+          'block w-full rounded-xl border-surface dark:border-slate-700 bg-background dark:bg-slate-800/50 backdrop-blur-sm',
           'focus:border-primary focus:ring-primary focus:ring-1 sm:text-sm transition-all duration-200',
           'placeholder:text-slate-400 dark:placeholder:text-slate-500',
           'disabled:opacity-50 disabled:cursor-not-allowed',

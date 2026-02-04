@@ -8,6 +8,8 @@ import NewAnalysis from './pages/NewAnalysis';
 import History from './pages/History';
 import Settings from './pages/Settings';
 import ProfileSettings from './pages/ProfileSettings';
+import NotificationSettings from './pages/NotificationSettings';
+import SecuritySettings from './pages/SecuritySettings';
 import Dashboard from './pages/Dashboard';
 
 import AnalysisResult from './pages/AnalysisResult';
@@ -28,6 +30,8 @@ function App() {
           <Route path="analysis/:id" element={<AnalysisResult />} />
           <Route path="settings" element={<Settings />} />
           <Route path="settings/profile" element={<ProfileSettings />} />
+          <Route path="settings/notifications" element={<NotificationSettings />} />
+          <Route path="settings/security" element={<SecuritySettings />} />
         </Route>
       </Routes>
     </Router>
