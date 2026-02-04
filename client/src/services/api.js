@@ -42,8 +42,15 @@ const login = async (userData) => {
 };
 
 const logout = () => {
-  localStorage.removeItem('user');
   window.location.href = '/login';
+};
+
+const updateProfile = async (userData) => {
+  const response = await api.put('/auth/profile', userData);
+  if (response.data) {
+    localStorage.setItem('user', JSON.stringify(response.data));
+  }
+  return response.data;
 };
 
 // Analysis Services
@@ -67,6 +74,7 @@ const authService = {
   register,
   login,
   logout,
+  updateProfile,
 };
 
 const analysisService = {

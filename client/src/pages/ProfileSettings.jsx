@@ -85,10 +85,8 @@ const ProfileSettings = () => {
     setLoading(true);
     
     try {
-      // Save immediately to localStorage
-      const user = JSON.parse(localStorage.getItem('user'));
-      const updatedUser = { ...user, ...formData };
-      localStorage.setItem('user', JSON.stringify(updatedUser));
+      // Call API to update profile
+      await authService.updateProfile(formData);
       
       // Dispatch custom event to notify other components (like Navbar)
       window.dispatchEvent(new Event('user-updated'));
@@ -96,10 +94,12 @@ const ProfileSettings = () => {
       // Optional: Visual feedback could be added here
     } catch (error) {
       console.error("Save error:", error);
-      if (error.name === 'QuotaExceededError') {
-        alert("Storage limit exceeded. Please try a smaller image.");
+      if (error.response && error.response.status === 413) {
+         alert("Image is too large for the server. Please try a smaller image.");
+      } else if (error.response && error.response.data && error.response.data.message) {
+         alert(`Failed to save profile: ${error.response.data.message}`);
       } else {
-        alert("Failed to save profile. Please try again.");
+         alert(`Failed to save profile: ${error.message || "Unknown error"}`);
       }
     } finally {
       setLoading(false);
