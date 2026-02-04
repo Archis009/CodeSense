@@ -27,6 +27,7 @@ const analyzeCodeWithAI = async (code, language) => {
           }
         ],
         "actionableImprovements": ["<string: checklist item>", ...],
+        "actionableImprovements": ["<string: checklist item>", ...],
         "refactoredCode": "<string: full improved code>"
       }
 
