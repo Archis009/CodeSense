@@ -7,6 +7,7 @@ import DashboardLayout from './components/layout/DashboardLayout';
 import NewAnalysis from './pages/NewAnalysis';
 import History from './pages/History';
 import Settings from './pages/Settings';
+import ProfileSettings from './pages/ProfileSettings';
 import Dashboard from './pages/Dashboard';
 
 import AnalysisResult from './pages/AnalysisResult';
@@ -26,6 +27,7 @@ function App() {
           <Route path="history" element={<History />} />
           <Route path="analysis/:id" element={<AnalysisResult />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="settings/profile" element={<ProfileSettings />} />
         </Route>
       </Routes>
     </Router>

@@ -3,7 +3,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Settings as SettingsIcon, Bell, Shield, User } from 'lucide-react';
 
+import { useNavigate } from 'react-router-dom';
+
 const Settings = () => {
+  const navigate = useNavigate();
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2">
@@ -27,6 +30,11 @@ const Settings = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 }}
             className="p-4 flex items-center gap-4 rounded-xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 transition-colors cursor-pointer group"
+            onClick={() => {
+              if (item.label === 'Profile Settings') {
+                navigate('/dashboard/settings/profile');
+              }
+            }}
           >
             <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
               <item.icon className="w-6 h-6" />
