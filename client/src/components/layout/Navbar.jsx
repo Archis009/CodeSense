@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bell, Search, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 
 const Navbar = () => {
+  const [user, setUser] = useState({ name: 'User', profileImage: null });
+
+  useEffect(() => {
+    const updateUser = () => {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      if (storedUser) {
+        setUser(storedUser);
+      }
+    };
+
+    updateUser();
+    window.addEventListener('user-updated', updateUser);
+    window.addEventListener('storage', updateUser);
+
+    return () => {
+      window.removeEventListener('user-updated', updateUser);
+      window.removeEventListener('storage', updateUser);
+    };
+  }, []);
   return (
     <header className="h-16 px-6 bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between sticky top-0 z-10">
       {/* Search */}
@@ -25,15 +44,19 @@ const Navbar = () => {
         
         <div className="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-700">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-medium">{JSON.parse(localStorage.getItem('user'))?.name || 'User'}</p>
+            <p className="text-sm font-medium">{user.name}</p>
             <p className="text-xs text-slate-500">Pro Plan</p>
           </div>
           <motion.div 
             whileHover={{ scale: 1.05 }}
             className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-secondary p-[2px] cursor-pointer"
           >
-            <div className="w-full h-full rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-              <User className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+            <div className="w-full h-full rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+              {user.profileImage ? (
+                <img src={user.profileImage} alt={user.name} className="w-full h-full object-cover" />
+              ) : (
+                <User className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+              )}
             </div>
           </motion.div>
         </div>
