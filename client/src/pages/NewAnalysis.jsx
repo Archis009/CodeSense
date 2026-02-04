@@ -42,26 +42,26 @@ const NewAnalysis = () => {
         <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary w-fit">
           New Analysis
         </h1>
-        <p className="text-slate-600 dark:text-slate-400">
+        <p className="text-text-muted dark:text-slate-400">
           Paste your code and select the language to get an instant quality report.
         </p>
       </div>
 
-      <motion.div
+        <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm"
+        className="p-6 rounded-2xl bg-surface dark:bg-dark-card border border-surface dark:border-slate-800 shadow-sm"
       >
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              <label className="text-sm font-medium text-text-main dark:text-slate-300">
                 Programming Language
               </label>
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface dark:border-slate-700 bg-background dark:bg-slate-900 text-text-main dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
               >
                 <option value="javascript">JavaScript</option>
                 <option value="typescript">TypeScript</option>
@@ -73,7 +73,7 @@ const NewAnalysis = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+            <label className="text-sm font-medium text-text-main dark:text-slate-300">
               Source Code
             </label>
             <div className="relative">
@@ -81,11 +81,11 @@ const NewAnalysis = () => {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="// Paste your code here..."
-                className="w-full h-[400px] px-4 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
+                className="w-full h-[400px] px-4 py-4 rounded-xl border border-surface dark:border-slate-700 bg-background dark:bg-slate-900 text-text-main dark:text-white font-mono text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
                 spellCheck="false"
               />
-              <div className="absolute top-4 right-4 p-2 rounded-lg bg-white/10 backdrop-blur-sm">
-                <Code2 className="w-5 h-5 text-slate-400" />
+              <div className="absolute top-4 right-4 p-2 rounded-lg bg-surface/50 backdrop-blur-sm">
+                <Code2 className="w-5 h-5 text-text-muted" />
               </div>
             </div>
           </div>

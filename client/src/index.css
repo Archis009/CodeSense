@@ -2,18 +2,33 @@
 @plugin "tailwindcss-animate";
 
 @theme {
-  --color-primary: #6366f1;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #06b6d4;
-  --color-secondary-foreground: #ffffff;
-  --color-dark-bg: #0f172a;
-  --color-dark-card: rgba(255,255,255,0.05);
-  --color-light-bg: #f8fafc;
-  --color-light-card: #ffffff;
+  --color-background: #0E1116;
+  --color-surface: #161A21;
   
-  --font-sans: 'Inter', sans-serif;
+  --color-primary: #7FAF9B;
+  --color-primary-foreground: #0E1116;
+  
+  --color-secondary: #161A21;
+  --color-secondary-foreground: #7FAF9B;
+  
+  --color-accent: #161A21;
+  --color-accent-foreground: #E6E8EB;
+
+  --color-text-main: #E6E8EB;
+  --color-text-muted: #9AA3AF;
+  
+  --color-success: #6FAF8E;
+  --color-warning: #E6C27A;
+  --color-error: #E38C8C;
+  
+  --color-border: #161A21;
+  
+  --font-sans: 'Outfit', 'Inter', sans-serif;
   
   --animate-spin: spin 1s linear infinite;
+  
+  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  --radius-button: 10px;
 }
 
 /* Custom Scrollbar */
@@ -54,11 +69,12 @@
     -webkit-font-smoothing: antialiased;
     color: #0f172a;
     background-color: var(--color-light-bg);
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 300ms;
   }
-  
+
   .dark body {
     color: #f1f5f9;
     background-color: var(--color-dark-bg);

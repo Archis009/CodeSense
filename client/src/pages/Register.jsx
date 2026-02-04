@@ -39,7 +39,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-light-bg dark:bg-dark-bg text-slate-900 dark:text-slate-100">
+    <div className="min-h-screen flex bg-background dark:bg-dark-bg text-text-main dark:text-slate-100">
       {/* Left Side - Form */}
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
@@ -56,7 +56,7 @@ const Register = () => {
 
           <div>
             <h2 className="text-3xl font-bold mb-2">Create an account</h2>
-            <p className="text-slate-500 dark:text-slate-400">
+            <p className="text-text-muted dark:text-slate-400">
               Join thousands of developers writing better code.
             </p>
           </div>
@@ -79,10 +79,10 @@ const Register = () => {
             
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-slate-200 dark:border-slate-700" />
+                <span className="w-full border-t border-surface dark:border-slate-700" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-light-bg dark:bg-dark-bg px-2 text-slate-500">
+                <span className="bg-background dark:bg-dark-bg px-2 text-text-muted">
                   Or sign up with email
                 </span>
               </div>
@@ -133,9 +133,9 @@ const Register = () => {
             </form>
           </div>
 
-          <p className="text-center text-sm text-slate-500">
+          <p className="text-center text-sm text-text-muted">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary font-semibold hover:text-indigo-500">
+            <Link to="/login" className="text-primary font-semibold hover:text-secondary">
               Sign in
             </Link>
           </p>
@@ -143,9 +143,9 @@ const Register = () => {
       </motion.div>
 
       {/* Right Side - Visual */}
-      <div className="hidden lg:flex w-1/2 bg-slate-900 relative overflow-hidden items-center justify-center p-12">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 to-cyan-600/20" />
-        <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-slate-900 to-transparent z-10" />
+      <div className="hidden lg:flex w-1/2 bg-dark-bg relative overflow-hidden items-center justify-center p-12">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
+        <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-dark-bg to-transparent z-10" />
         
         {/* Animated Orbs */}
         <motion.div 
@@ -160,7 +160,7 @@ const Register = () => {
         />
 
         <div className="relative z-20 max-w-lg">
-          <Card className="bg-slate-800/50 border-slate-700 backdrop-blur-xl">
+          <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
              <div className="p-6 text-center">
                 <h3 className="text-2xl font-bold text-white mb-2">Start your journey</h3>
                 <p className="text-slate-400">

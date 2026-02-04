@@ -117,7 +117,7 @@ const ProfileSettings = () => {
         <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary w-fit">
           Profile Settings
         </h1>
-        <p className="text-slate-600 dark:text-slate-400">
+        <p className="text-text-muted dark:text-slate-400">
           Manage your personal information and account preferences.
         </p>
       </div>
@@ -126,13 +126,13 @@ const ProfileSettings = () => {
         <Card>
           <form onSubmit={handleSave} className="space-y-8">
             {/* Profile Image Section */}
-            <div className="flex flex-col sm:flex-row items-center gap-8 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800">
+            <div className="flex flex-col sm:flex-row items-center gap-8 p-6 bg-background dark:bg-slate-800/50 rounded-2xl border border-surface dark:border-slate-800">
               <div className="relative group">
-                <div className="w-32 h-32 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden border-4 border-white dark:border-slate-700 shadow-lg">
+                <div className="w-32 h-32 rounded-full bg-surface dark:bg-slate-800 flex items-center justify-center overflow-hidden border-4 border-background dark:border-slate-700 shadow-lg">
                   {formData.profileImage ? (
                     <img src={formData.profileImage} alt="Profile" className="w-full h-full object-cover" />
                   ) : (
-                    <User className="w-12 h-12 text-slate-300" />
+                    <User className="w-12 h-12 text-text-muted" />
                   )}
                 </div>
                 <label className="absolute inset-0 flex items-center justify-center bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity rounded-full cursor-pointer">
@@ -142,7 +142,7 @@ const ProfileSettings = () => {
               </div>
               <div className="text-center sm:text-left space-y-2">
                 <h3 className="font-bold text-xl">Profile Photo</h3>
-                <p className="text-sm text-slate-500 max-w-xs">
+                <p className="text-sm text-text-muted max-w-xs">
                   Upload a new profile image. Recommended size 400x400px.
                 </p>
                 <div className="flex gap-3 justify-center sm:justify-start pt-2">
@@ -166,7 +166,7 @@ const ProfileSettings = () => {
             <div className="grid gap-10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Full Name</label>
+                  <label className="text-sm font-semibold text-text-main dark:text-slate-300 ml-1">Full Name</label>
                   <Input
                     icon={User}
                     name="name"
@@ -177,7 +177,7 @@ const ProfileSettings = () => {
                   />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Email Address</label>
+                  <label className="text-sm font-semibold text-text-main dark:text-slate-300 ml-1">Email Address</label>
                   <Input
                     icon={Mail}
                     name="email"
@@ -191,24 +191,24 @@ const ProfileSettings = () => {
               </div>
 
               <div className="space-y-4">
-                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Bio / Description</label>
+                <label className="text-sm font-semibold text-text-main dark:text-slate-300 ml-1">Bio / Description</label>
                 <div className="relative">
                   <textarea
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
                     placeholder="Tell us a bit about yourself..."
-                    className="w-full h-40 px-4 py-4 pl-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none text-base leading-relaxed"
+                    className="w-full h-40 px-4 py-4 pl-11 rounded-xl border border-surface dark:border-slate-700 bg-background dark:bg-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none text-base leading-relaxed"
                   />
-                  <FileText className="absolute top-4 left-3.5 w-5 h-5 text-slate-400" />
+                  <FileText className="absolute top-4 left-3.5 w-5 h-5 text-text-muted" />
                 </div>
-                <p className="text-xs text-slate-500 text-right">
+                <p className="text-xs text-text-muted text-right">
                   {formData.description.length}/500 characters
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-8 border-t border-slate-200 dark:border-slate-700">
+            <div className="flex items-center justify-between pt-8 border-t border-surface dark:border-slate-700">
               <Button type="button" variant="ghost" onClick={handleLogout} className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 h-11 px-6">
                 <LogOut className="w-4 h-4 mr-2" />
                 Log Out

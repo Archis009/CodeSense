@@ -28,10 +28,10 @@ const Sidebar = () => {
     <motion.div 
       initial={false}
       animate={{ width: collapsed ? 80 : 256 }}
-      className="relative h-screen bg-white dark:bg-dark-bg border-r border-slate-200 dark:border-slate-800 flex flex-col z-20"
+      className="relative h-screen bg-surface dark:bg-dark-bg border-r border-accent dark:border-slate-800 flex flex-col z-20"
     >
       {/* Header */}
-      <div className="h-16 flex items-center px-4 border-b border-slate-200 dark:border-slate-800">
+      <div className="h-16 flex items-center px-4 border-b border-accent dark:border-slate-800">
         <div className="flex items-center gap-3 overflow-hidden">
           <div className="min-w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
             <Code2 className="w-5 h-5 text-white" />
@@ -54,8 +54,8 @@ const Sidebar = () => {
             className={({ isActive }) => cn(
               "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative",
               isActive 
-                ? "bg-primary/10 text-primary" 
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ? "bg-primary/20 text-primary-foreground font-semibold" 
+                : "text-text-main dark:text-slate-400 hover:bg-background/10 dark:hover:bg-slate-800"
             )}
           >
             <link.icon className={cn("w-5 h-5 min-w-5", collapsed ? "mx-auto" : "")} />
@@ -76,10 +76,10 @@ const Sidebar = () => {
       </nav>
 
       {/* Footer Actions */}
-      <div className="p-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
+      <div className="p-4 border-t border-accent dark:border-slate-800 space-y-2">
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="w-full flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+          className="w-full flex items-center gap-3 px-3 py-2 text-text-main dark:text-slate-400 hover:bg-background/10 dark:hover:bg-slate-800 rounded-xl transition-colors"
         >
           {collapsed ? <ChevronRight className="w-5 h-5 mx-auto" /> : <ChevronLeft className="w-5 h-5" />}
           {!collapsed && <span>Collapse</span>}

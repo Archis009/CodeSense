@@ -4,7 +4,7 @@ import Hero from '../components/layout/Hero';
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-slate-900 dark:text-slate-100 overflow-x-hidden">
+    <div className="min-h-screen bg-background dark:bg-dark-bg text-text-main dark:text-slate-100 overflow-x-hidden">
       <Navbar /> {/* Reusing Navbar for now, normally would be a public nav */}
       <main>
         <Hero />

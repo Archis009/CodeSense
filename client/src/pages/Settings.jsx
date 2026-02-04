@@ -13,7 +13,7 @@ const Settings = () => {
         <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary w-fit">
           Settings
         </h1>
-        <p className="text-slate-600 dark:text-slate-400">
+        <p className="text-text-muted dark:text-slate-400">
           Manage your account preferences and application settings.
         </p>
       </div>
@@ -29,7 +29,7 @@ const Settings = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="p-4 flex items-center gap-4 rounded-xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 transition-colors cursor-pointer group"
+            className="p-4 flex items-center gap-4 rounded-xl bg-surface dark:bg-dark-card border border-surface dark:border-slate-800 shadow-sm hover:border-primary/50 transition-colors cursor-pointer group"
             onClick={() => {
               if (item.label === 'Profile Settings') {
                 navigate('/dashboard/settings/profile');
@@ -40,10 +40,10 @@ const Settings = () => {
               <item.icon className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-semibold text-slate-900 dark:text-white">
+              <h3 className="font-semibold text-text-main dark:text-white">
                 {item.label}
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
+              <p className="text-sm text-text-muted dark:text-slate-400">
                 {item.desc}
               </p>
             </div>

@@ -30,7 +30,7 @@ const History = () => {
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary w-fit">
             Analysis History
           </h1>
-          <p className="text-slate-600 dark:text-slate-400">
+          <p className="text-text-muted dark:text-slate-400">
             View past analyses and reports.
           </p>
         </div>
@@ -42,15 +42,15 @@ const History = () => {
         <Motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-12 text-center rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm"
+          className="p-12 text-center rounded-2xl bg-surface dark:bg-dark-card border border-surface dark:border-slate-800 shadow-sm"
         >
-          <div className="inline-flex items-center justify-center p-4 rounded-full bg-slate-100 dark:bg-slate-800 mb-4">
-            <HistoryIcon className="w-8 h-8 text-slate-400" />
+          <div className="inline-flex items-center justify-center p-4 rounded-full bg-background dark:bg-slate-800 mb-4">
+            <HistoryIcon className="w-8 h-8 text-text-muted" />
           </div>
-          <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
+          <h3 className="text-lg font-medium text-text-main dark:text-white mb-2">
             No History Found
           </h3>
-          <p className="text-slate-600 dark:text-slate-400">
+          <p className="text-text-muted dark:text-slate-400">
             You haven't run any analyses yet. Start a new analysis to see it here.
           </p>
         </Motion.div>
@@ -61,7 +61,7 @@ const History = () => {
             <Motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-6 rounded-xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              className="p-6 rounded-xl bg-surface dark:bg-dark-card border border-surface dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             >
               <div className="flex justify-between items-start">
                 <div>
@@ -69,11 +69,11 @@ const History = () => {
                     <span className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase">
                       {item.language}
                     </span>
-                    <span className="text-slate-400 text-sm">
+                    <span className="text-text-muted text-sm">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </span>
                   </div>
-                  <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-1">
+                  <h3 className="text-lg font-medium text-text-main dark:text-white mb-1">
                     Analysis Score: {item.score}%
                   </h3>
                 </div>
