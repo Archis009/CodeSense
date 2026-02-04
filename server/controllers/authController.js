@@ -131,8 +131,17 @@ const updatePassword = async (req, res) => {
 // @route   GET /api/auth/github
 // @access  Public
 const githubLogin = (req, res) => {
-  const redirectUri = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_CALLBACK_URL}&scope=user:email`;
-  res.redirect(redirectUri);
+  try {
+    if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CALLBACK_URL) {
+      console.error('Missing GitHub OAuth credentials');
+      return res.redirect('http://localhost:5173/login?error=Server%20Error:%20Missing%20GitHub%20Credentials');
+    }
+    const redirectUri = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_CALLBACK_URL}&scope=user:email`;
+    res.redirect(redirectUri);
+  } catch (error) {
+    console.error('GitHub Login Redirect Error:', error);
+    res.redirect('http://localhost:5173/login?error=Server%20Error:%20GitHub%20Login%20Failed');
+  }
 };
 
 // @desc    Handle GitHub OAuth Callback

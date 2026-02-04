@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Github, Mail, Lock, ArrowRight, Code2, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -20,6 +20,32 @@ const Login = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.type]: e.target.value });
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const userStr = params.get('user');
+    const errorMsg = params.get('error');
+
+    if (token && userStr) {
+      try {
+        const user = JSON.parse(decodeURIComponent(userStr));
+        localStorage.setItem('user', JSON.stringify(user));
+        // Dispatch event for other components listening
+        window.dispatchEvent(new Event('user-updated'));
+        navigate('/dashboard');
+      } catch (e) {
+        console.error('Failed to parse user data', e);
+        setError('Login failed. Invalid data received.');
+      }
+    } else if (errorMsg) {
+       setError(errorMsg);
+    }
+  }, [navigate]);
+
+  const handleGitHubLogin = () => {
+    window.location.href = 'http://localhost:5000/api/auth/github';
   };
 
   const handleLogin = async (e) => {
@@ -71,7 +97,7 @@ const Login = () => {
           )}
 
           <div className="space-y-4">
-            <Button variant="outline" className="w-full gap-2 justify-center" onClick={() => navigate('/dashboard')}>
+            <Button variant="outline" className="w-full gap-2 justify-center" onClick={handleGitHubLogin}>
               <Github className="w-5 h-5" />
               Continue with GitHub
             </Button>

@@ -11,7 +11,6 @@ const SecuritySettings = () => {
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
     newPassword: '',
-    newPassword: '',  
     confirmPassword: ''
   });
   const [history, setHistory] = useState([]);
