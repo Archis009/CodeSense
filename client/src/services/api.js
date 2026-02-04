@@ -67,6 +67,11 @@ const analyzeCode = async (data) => {
   return response.data;
 };
 
+const analyzeRepo = async (repoUrl) => {
+  const response = await api.post('/analysis/repo', { repoUrl });
+  return response.data;
+};
+
 const getHistory = async () => {
   const response = await api.get('/analysis');
   return response.data;
@@ -92,6 +97,7 @@ const authService = {
 
 const analysisService = {
   analyzeCode,
+  analyzeRepo,
   getHistory,
   getAnalysisById,
   deleteAnalysis,

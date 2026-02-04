@@ -28,6 +28,10 @@ const userSchema = mongoose.Schema(
       type: String,
       default: null,
     },
+    githubAccessToken: {
+      type: String,
+      select: false, // Don't return by default
+    },
   },
   {
     timestamps: true,

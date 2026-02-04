@@ -67,6 +67,9 @@ const Dashboard = () => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({ name: 'Developer' });
+  const [inputUrl, setInputUrl] = useState('');
+  const [analyzing, setAnalyzing] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,6 +97,27 @@ const Dashboard = () => {
   const totalIssues = history.reduce((acc, curr) => {
     return acc + (curr.feedback?.issues?.length || 0);
   }, 0);
+
+  const handleAnalyze = async () => {
+    if (!inputUrl) return;
+    setError('');
+
+    if (inputUrl.includes('github.com')) {
+      setAnalyzing(true);
+      try {
+        const result = await analysisService.analyzeRepo(inputUrl);
+        navigate(`/analysis/${result._id}`);
+      } catch (error) {
+        console.error('Analysis failed:', error);
+        setError(error.response?.data?.message || 'Failed to analyze repository. Make sure it is public.');
+      } finally {
+        setAnalyzing(false);
+      }
+    } else {
+      // Normal code analysis redirection
+      navigate('/dashboard/new');
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -234,9 +258,22 @@ const Dashboard = () => {
                 type="text" 
                 placeholder="https://github.com/username/repo" 
                 className="flex-1 rounded-xl border-surface dark:border-slate-700 bg-surface dark:bg-slate-900 px-4 focus:ring-2 focus:ring-primary"
+                value={inputUrl}
+                onChange={(e) => setInputUrl(e.target.value)}
               />
-              <Button onClick={() => navigate('/dashboard/new')}>Analyze Code</Button>
+              <Button onClick={handleAnalyze} disabled={analyzing}>
+                {analyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Analyze Code'}
+              </Button>
             </div>
+            {error && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm max-w-md mx-auto"
+              >
+                {error}
+              </motion.div>
+            )}
           </div>
         </Card>
       </motion.div>

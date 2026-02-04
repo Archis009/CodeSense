@@ -1,6 +1,7 @@
+import crypto from 'crypto';
+import axios from 'axios';
 import CodeAnalysis from '../models/CodeAnalysis.js';
 import openai from '../utils/aiService.js';
-import crypto from 'crypto';
 
 
 // Mock removed
@@ -127,9 +128,155 @@ const deleteAnalysis = async (req, res) => {
   res.status(200).json({ message: 'Analysis removed' });
 };
 
+
+
+// @desc    Analyze GitHub Repository
+// @route   POST /api/analysis/repo
+// @access  Private
+const analyzeRepo = async (req, res) => {
+  const { repoUrl } = req.body;
+
+  if (!repoUrl || !repoUrl.includes('github.com')) {
+     res.status(400);
+     throw new Error('Please provide a valid GitHub repository URL');
+  }
+
+  try {
+    // Extract owner and repo from URL
+    const parts = repoUrl.split('github.com/')[1].split('/');
+    const owner = parts[0];
+    const repo = parts[1];
+
+    console.log(`Analyzing Repo: ${owner}/${repo}`);
+
+    // Fetch repository tree (recursive)
+    // Use user's GitHub token if available to avoid rate limits
+    const headers = {
+      'Accept': 'application/vnd.github.v3+json'
+    };
+    
+    // We need to fetch the user with the token (select: +githubAccessToken not working well with findById usually unless explicit)
+    // But let's try to get it. 
+    // Actually req.user is set by protect middleware, but exclude password/tokens usually.
+    // Let's re-fetch user with token.
+    const user = await req.user.constructor.findById(req.user._id).select('+githubAccessToken');
+    
+    if (user && user.githubAccessToken) {
+       headers['Authorization'] = `token ${user.githubAccessToken}`;
+       console.log('Using User GitHub Token for Analysis');
+    } else if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
+       // Fallback to Basic Auth with Client ID/Secret (increases limit to 5000/hr)
+       const auth = Buffer.from(`${process.env.GITHUB_CLIENT_ID}:${process.env.GITHUB_CLIENT_SECRET}`).toString('base64');
+       headers['Authorization'] = `Basic ${auth}`;
+       console.log('Using Server GitHub Credentials for Analysis');
+    }
+
+    // Fetch repository metadata to get default branch
+    const metadataUrl = `https://api.github.com/repos/${owner}/${repo}`;
+    let defaultBranch = 'main';
+    
+    try {
+      const { data: metadata } = await axios.get(metadataUrl, { headers });
+      defaultBranch = metadata.default_branch;
+    } catch (err) {
+      console.error('Failed to fetch repo metadata, defaulting to main:', err.message);
+      if (err.response?.status === 403) {
+         throw new Error('GitHub API Rate Limit Exceeded. Please sign in with GitHub to increase limits.');
+      }
+    }
+
+    const treeUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${defaultBranch}?recursive=1`;
+    
+    let treeData;
+    try {
+      const response = await axios.get(treeUrl, { headers });
+      treeData = response.data;
+    } catch (err) {
+       console.error('Tree fetch error:', err.message);
+       // If recursive limit hit or other error, try non-recursive?
+       // For now throw specific error
+       throw new Error(`Failed to fetch repository tree from branch '${defaultBranch}'. Ensure repo is public.`);
+    }
+
+    if (!treeData.tree) {
+       throw new Error('Could not fetch repository structure');
+    }
+
+    // Filter for code files
+    const relevantExtensions = ['.js', '.jsx', '.ts', '.tsx', '.py', '.html', '.css', '.json', '.java', '.cpp'];
+    
+    // Limit to reasonable number of files to prevent context overflow (e.g., top 15 largest code files or just first 20)
+    // For this demo, simply take first 10 files that match extension to save tokens
+    const codeFiles = treeData.tree
+      .filter(file => file.type === 'blob' && relevantExtensions.some(ext => file.path.endsWith(ext)))
+      .slice(0, 10); // Limit to 10 files for performance/token limits
+
+    if (codeFiles.length === 0) {
+        throw new Error('No supported code files found in repository');
+    }
+
+    console.log(`Found ${codeFiles.length} files to analyze`);
+
+    // Fetch content for each file
+    const fileContents = await Promise.all(codeFiles.map(async (file) => {
+        const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${treeData.sha || defaultBranch}/${file.path}`;
+        try {
+           // Raw content doesn't need API headers usually, but for private repos (future proof) it might.
+           // For public repos, raw.githubusercontent is fine without auth, BUT rate limits apply to IP.
+           // Better to use API to get blob content if we have token? 
+           // For now stick to rawUrl for simplicity, but strictly public.
+           const { data } = await axios.get(rawUrl, { responseType: 'text' });
+           return `\n--- File: ${file.path} ---\n${typeof data === 'string' ? data : JSON.stringify(data)}`;
+        } catch (e) {
+           return `\n--- File: ${file.path} (Read Error) ---\n`;
+        }
+    }));
+
+    const combinedCode = fileContents.join('\n');
+    
+    // Analyze using existing logic
+    const codeHash = crypto.createHash('sha256').update(combinedCode).digest('hex');
+
+    // Check cache
+    const existingAnalysis = await CodeAnalysis.findOne({ codeHash, language: 'repo' });
+    if (existingAnalysis) {
+        const newEntry = await CodeAnalysis.create({
+            userId: req.user.id,
+            language: 'repo',
+            code: repoUrl, // Store URL instead of code dump
+            codeHash,
+            filename: `${owner}/${repo}`,
+            score: existingAnalysis.score,
+            feedback: existingAnalysis.feedback
+        });
+        return res.status(201).json(newEntry);
+    }
+
+    // Call AI
+    const aiResult = await openai.analyze(combinedCode, 'repository');
+    
+    const analysis = await CodeAnalysis.create({
+        userId: req.user.id,
+        language: 'repo',
+        code: repoUrl,
+        codeHash,
+        filename: `${owner}/${repo}`,
+        score: aiResult.score,
+        feedback: aiResult
+    });
+
+    res.status(201).json(analysis);
+
+  } catch (error) {
+    console.error('Repo Analysis Error:', error);
+    res.status(500).json({ message: error.message || 'Failed to analyze repository' });
+  }
+};
+
 export {
   analyzeCode,
   getHistory,
   getAnalysisById,
   deleteAnalysis,
+  analyzeRepo,
 };

@@ -196,7 +196,12 @@ const githubCallback = async (req, res) => {
         password: Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8), // Generate random password
         profileImage: profile.avatar_url,
         description: profile.bio || '',
+        githubAccessToken: accessToken,
       });
+    } else {
+      // Update token for existing user
+      user.githubAccessToken = accessToken;
+      await user.save();
     }
 
     const token = generateToken(user._id);
