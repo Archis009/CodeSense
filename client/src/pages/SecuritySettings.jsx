@@ -129,7 +129,7 @@ const SecuritySettings = () => {
         </Card>
 
         <Card className="bg-surface dark:bg-dark-card border border-red-200 dark:border-red-900/30">
-          <h3 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-2 flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-2 flex items-center gap-2" style={{color: 'white'}}>
             {/* <AlertTriangle className="w-5 h-5" /> */}
             Delete History
           </h3>

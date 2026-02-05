@@ -16,7 +16,7 @@ const Hero = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
-            New: AI Security Scanning 2.0 🚀
+            New: AI Security Scanning 2.0
           </span>
           <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
             Code Reviews on <br />

@@ -58,10 +58,12 @@ const NewAnalysis = () => {
               <label className="text-sm font-medium text-text-main dark:text-slate-300">
                 Programming Language
               </label>
+              <br/>
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl border border-surface dark:border-slate-700 bg-background dark:bg-slate-900 text-text-main dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                style={{height: 30, width:150}}
               >
                 <option value="javascript">JavaScript</option>
                 <option value="typescript">TypeScript</option>
