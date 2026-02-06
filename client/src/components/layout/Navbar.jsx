@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, Search, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 
 const Navbar = () => {
-  const [user, setUser] = useState({ name: 'User', profileImage: null });
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const updateUser = () => {
@@ -13,7 +15,7 @@ const Navbar = () => {
       if (storedUser) {
         setUser(storedUser);
       } else {
-        setUser({ name: 'User', profileImage: null });
+        setUser(null);
       }
     };
 
@@ -44,24 +46,30 @@ const Navbar = () => {
           <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-dark-bg"></span>
         </Button>
         
-        <div className="flex items-center gap-3 pl-4 border-l border-accent dark:border-slate-700">
-          <div className="text-right hidden sm:block">
-            <p className="text-sm font-medium text-text-main">{user.name}</p>
-            <p className="text-xs text-text-muted">Pro Plan</p>
-          </div>
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-secondary p-[2px] cursor-pointer"
-          >
-            <div className="w-full h-full rounded-full bg-surface dark:bg-slate-800 flex items-center justify-center overflow-hidden">
-              {user.profileImage ? (
-                <img src={user.profileImage} alt={user.name} className="w-full h-full object-cover" />
-              ) : (
-                <User className="w-5 h-5 text-text-muted dark:text-slate-300" />
-              )}
+        {user ? (
+          <div className="flex items-center gap-3 pl-4 border-l border-accent dark:border-slate-700">
+            <div className="text-right hidden sm:block">
+              <p className="text-sm font-medium text-text-main">{user.name}</p>
+              <p className="text-xs text-text-muted">Pro Plan</p>
             </div>
-          </motion.div>
-        </div>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-secondary p-[2px] cursor-pointer"
+            >
+              <div className="w-full h-full rounded-full bg-surface dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+                {user.profileImage ? (
+                  <img src={user.profileImage} alt={user.name} className="w-full h-full object-cover" />
+                ) : (
+                  <User className="w-5 h-5 text-text-muted dark:text-slate-300" />
+                )}
+              </div>
+            </motion.div>
+          </div>
+        ) : (
+          <div className="pl-4 border-l border-accent dark:border-slate-700">
+            <Button onClick={() => navigate('/login')}>Login</Button>
+          </div>
+        )}
       </div>
     </header>
   );
