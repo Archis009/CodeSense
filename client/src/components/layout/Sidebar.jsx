@@ -78,7 +78,7 @@ const Sidebar = () => {
         {!collapsed && (
           <div className="pt-4 px-2">
             <div className="p-3 bg-indigo-50/50 dark:bg-slate-800/50 rounded-xl border border-indigo-100 dark:border-slate-700">
-              <p className="text-xs font-semibold text-primary mb-2">🚀 How to Use</p>
+              <p className="text-xs font-semibold text-primary mb-2">How to Use</p>
               <ul className="text-[10px] text-text-muted dark:text-slate-400 space-y-1.5 list-disc pl-3">
                 <li>Click <strong>New Analysis</strong> to start</li>
                 <li>Paste code for better analysis</li>
