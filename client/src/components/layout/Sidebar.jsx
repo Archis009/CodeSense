@@ -32,7 +32,7 @@ const Sidebar = () => {
     >
       {/* Header */}
       <div className="h-16 flex items-center px-4 border-b border-accent dark:border-slate-800">
-        <div className="flex items-center gap-3 overflow-hidden">
+        <div className="flex items-center gap-3 overflow-hidden cursor-pointer" onClick={() => window.location.href = '/dashboard'}>
           <div className="min-w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
             <Code2 className="w-5 h-5 text-white" />
           </div>
@@ -74,6 +74,21 @@ const Sidebar = () => {
           </NavLink>
         ))}
       </nav>
+
+      {/* User Guide */}
+      {!collapsed && (
+        <div className="px-4 pb-2">
+          <div className="p-3 bg-indigo-50/50 dark:bg-slate-800/50 rounded-xl border border-indigo-100 dark:border-slate-700">
+            <p className="text-xs font-semibold text-primary mb-2">🚀 How to Use</p>
+            <ul className="text-[10px] text-text-muted dark:text-slate-400 space-y-1.5 list-disc pl-3">
+              <li>Click <strong>New Analysis</strong> to start</li>
+              <li>Paste GitHub URL or Code</li>
+              <li>View report in <strong>History</strong></li>
+              <li>Update profile in <strong>Settings</strong></li>
+            </ul>
+          </div>
+        </div>
+      )}
 
       {/* Footer Actions */}
       <div className="p-4 border-t border-accent dark:border-slate-800 space-y-2">

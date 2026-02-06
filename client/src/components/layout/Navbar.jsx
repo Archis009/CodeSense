@@ -30,16 +30,7 @@ const Navbar = () => {
   }, []);
   return (
     <header className="h-16 px-6 bg-surface/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-accent dark:border-slate-800 flex items-center justify-between sticky top-0 z-10">
-      {/* Search */}
-      <div className="w-96 hidden md:block">
-        <Input 
-          icon={Search} 
-          placeholder="Search projects, analysis, or files..." 
-          className="bg-background dark:bg-slate-800 border-transparent focus:bg-surface dark:focus:bg-dark-card text-text-main placeholder:text-text-muted"
-        />
-      </div>
 
-      {/* Right Actions */}
       <div className="flex items-center gap-4">
         {user && (
           <Button variant="ghost" size="icon" className="relative" onClick={() => navigate('/dashboard/settings/notifications')}>
@@ -56,6 +47,7 @@ const Navbar = () => {
             </div>
             <motion.div 
               whileHover={{ scale: 1.05 }}
+              onClick={() => navigate('/dashboard/settings/profile')}
               className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-secondary p-[2px] cursor-pointer"
             >
               <div className="w-full h-full rounded-full bg-surface dark:bg-slate-800 flex items-center justify-center overflow-hidden">

@@ -67,9 +67,7 @@ const Dashboard = () => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({ name: 'Developer' });
-  const [inputUrl, setInputUrl] = useState('');
-  const [analyzing, setAnalyzing] = useState(false);
-  const [error, setError] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,26 +96,7 @@ const Dashboard = () => {
     return acc + (curr.feedback?.issues?.length || 0);
   }, 0);
 
-  const handleAnalyze = async () => {
-    if (!inputUrl) return;
-    setError('');
 
-    if (inputUrl.includes('github.com')) {
-      setAnalyzing(true);
-      try {
-        const result = await analysisService.analyzeRepo(inputUrl);
-        navigate(`/analysis/${result._id}`);
-      } catch (error) {
-        console.error('Analysis failed:', error);
-        setError(error.response?.data?.message || 'Failed to analyze repository. Make sure it is public.');
-      } finally {
-        setAnalyzing(false);
-      }
-    } else {
-      // Normal code analysis redirection
-      navigate('/dashboard/new');
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -238,45 +217,7 @@ const Dashboard = () => {
         </>
       )}
 
-      {/* Quick Actions / New Analysis Zone */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        <Card className="border-dashed border-2 bg-background/50 dark:bg-slate-800/20">
-          <div className="text-center py-10">
-            <div className="w-16 h-16 mx-auto bg-indigo-900/30 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mb-4 text-indigo-500">
-              <GitBranch className="w-8 h-8" />
-            </div>
-            <h3 className="text-xl font-bold mb-2">Analyze a New Project</h3>
-            <p className="text-text-muted max-w-lg mx-auto mb-8">
-              Paste a GitHub repository URL or drag and drop your files here to start a comprehensive code quality analysis.
-            </p>
-            <div className="max-w-xl mx-auto flex gap-2">
-              <input 
-                type="text" 
-                placeholder="https://github.com/username/repo" 
-                className="flex-1 rounded-xl border-surface dark:border-slate-700 bg-surface dark:bg-slate-900 px-4 focus:ring-2 focus:ring-primary"
-                value={inputUrl}
-                onChange={(e) => setInputUrl(e.target.value)}
-              />
-              <Button onClick={handleAnalyze} disabled={analyzing}>
-                {analyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Analyze Code'}
-              </Button>
-            </div>
-            {error && (
-              <motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm max-w-md mx-auto"
-              >
-                {error}
-              </motion.div>
-            )}
-          </div>
-        </Card>
-      </motion.div>
+
     </div>
   );
 };
