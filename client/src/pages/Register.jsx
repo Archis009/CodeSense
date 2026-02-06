@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Github, Mail, Lock, User, ArrowRight, Code2, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
