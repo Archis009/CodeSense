@@ -38,8 +38,12 @@ app.get('/', (req, res) => {
 });
 
 // Routes
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/analysis', analysisRoutes);
+// Fallback for requests missing /api prefix (Helper for misconfigured clients)
+app.use('/auth', authRoutes);
+app.use('/analysis', analysisRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
