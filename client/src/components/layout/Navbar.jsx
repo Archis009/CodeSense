@@ -29,7 +29,7 @@ const Navbar = () => {
     };
   }, []);
   return (
-    <header className="h-16 px-6 bg-surface/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-accent dark:border-slate-800 flex items-center justify-between sticky top-0 z-10">
+    <header className="h-16 px-6 bg-surface/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-accent dark:border-slate-800 flex items-center justify-end sticky top-0 z-10">
 
       <div className="flex items-center gap-4">
         {user && (
