@@ -66,8 +66,9 @@ const Navbar = () => {
             </motion.div>
           </div>
         ) : (
-          <div className="pl-4 border-l border-accent dark:border-slate-700">
-            <Button onClick={() => navigate('/login')}>Login</Button>
+          <div className="pl-4 border-l border-accent dark:border-slate-700 flex gap-2">
+            <Button variant="ghost" onClick={() => navigate('/login')}>Login</Button>
+            <Button onClick={() => navigate('/signup')}>Register</Button>
           </div>
         )}
       </div>
