@@ -41,10 +41,12 @@ const Navbar = () => {
 
       {/* Right Actions */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell className="w-5 h-5" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-dark-bg"></span>
-        </Button>
+        {user && (
+          <Button variant="ghost" size="icon" className="relative" onClick={() => navigate('/dashboard/settings/notifications')}>
+            <Bell className="w-5 h-5" />
+            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-dark-bg"></span>
+          </Button>
+        )}
         
         {user ? (
           <div className="flex items-center gap-3 pl-4 border-l border-accent dark:border-slate-700">
