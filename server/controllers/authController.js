@@ -134,13 +134,13 @@ const githubLogin = (req, res) => {
   try {
     if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CALLBACK_URL) {
       console.error('Missing GitHub OAuth credentials');
-      return res.redirect('http://localhost:5173/login?error=Server%20Error:%20Missing%20GitHub%20Credentials');
+      return res.redirect(`${process.env.CLIENT_URL}/login?error=Server%20Error:%20Missing%20GitHub%20Credentials`);
     }
     const redirectUri = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_CALLBACK_URL}&scope=user:email`;
     res.redirect(redirectUri);
   } catch (error) {
     console.error('GitHub Login Redirect Error:', error);
-    res.redirect('http://localhost:5173/login?error=Server%20Error:%20GitHub%20Login%20Failed');
+    res.redirect(`${process.env.CLIENT_URL}/login?error=Server%20Error:%20GitHub%20Login%20Failed`);
   }
 };
 
@@ -207,7 +207,7 @@ const githubCallback = async (req, res) => {
     const token = generateToken(user._id);
 
     // Redirect to frontend with token
-    res.redirect(`http://localhost:5173/login?token=${token}&user=${encodeURIComponent(JSON.stringify({
+    res.redirect(`${process.env.CLIENT_URL}/login?token=${token}&user=${encodeURIComponent(JSON.stringify({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -217,7 +217,7 @@ const githubCallback = async (req, res) => {
 
   } catch (error) {
     console.error('GitHub Auth Error:', error);
-    res.redirect('http://localhost:5173/login?error=GitHub login failed');
+    res.redirect(`${process.env.CLIENT_URL}/login?error=GitHub login failed`);
   }
 };
 
